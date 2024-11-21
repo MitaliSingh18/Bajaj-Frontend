@@ -1,36 +1,29 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./App.css"
+import "./App.css";
 
 const App = () => {
-  // States to manage user input, API response, and selected options
-  const [jsonInput, setJsonInput] = useState("");
-  const [response, setResponse] = useState(null);
-  const [error, setError] = useState("");
-  const [selectedOptions, setSelectedOptions] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [jsonInput, setJsonInput] = useState(""); // For input JSON
+  const [response, setResponse] = useState(null); // For server response
+  const [error, setError] = useState(""); // For errors
+  const [selectedOption, setSelectedOption] = useState(""); // For dropdown selection
+  const [loading, setLoading] = useState(false); // For loading state
 
-  // Handle input change
+  // Handle changes in the textarea
   const handleInputChange = (e) => {
     setJsonInput(e.target.value);
     setError("");
   };
 
-  // Handle submit event
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
     try {
-      // Validate JSON input
-      const parsedData = JSON.parse(jsonInput);
-      if (!parsedData.data || !Array.isArray(parsedData.data)) {
-        setError("Invalid JSON format or missing 'data' array.");
-        setLoading(false);
-        return;
-      }
-
-      // Call the backend API
+      // Parse the input JSON or use an empty object
+      const parsedData = jsonInput ? JSON.parse(jsonInput) : {};
+      // Send the parsed data to the /bfhl route
       const res = await axios.post("https://bajaj-backend-1-hf1v.onrender.com/bfhl", parsedData);
       setResponse(res.data);
     } catch (err) {
@@ -40,67 +33,67 @@ const App = () => {
     }
   };
 
-  // Handle multi-select dropdown change
+  // Handle dropdown option change
   const handleDropdownChange = (e) => {
-    const selected = Array.from(e.target.selectedOptions, (option) => option.value);
-    setSelectedOptions(selected);
+    setSelectedOption(e.target.value);
   };
 
-  // Filter the response based on selected options
+  // Filter response based on the selected dropdown option
   const getFilteredResponse = () => {
-    if (!response) return null;
-
-    const filteredResponse = {};
-    if (selectedOptions.includes("Alphabets")) {
-      filteredResponse.alphabets = response.alphabets;
-    }
-    if (selectedOptions.includes("Numbers")) {
-      filteredResponse.numbers = response.numbers;
-    }
-    if (selectedOptions.includes("Highest lowercase alphabet")) {
-      filteredResponse.highest_lowercase_alphabet = response.highest_lowercase_alphabet;
-    }
-
-    return filteredResponse;
+    if (!response || !selectedOption) return null;
+    const keyMap = {
+      Alphabets: "alphabets",
+      Numbers: "numbers",
+      "Highest lowercase alphabet": "highest_lowercase_alphabet",
+    };
+    return { [keyMap[selectedOption]]: response[keyMap[selectedOption]] };
   };
 
   return (
     <div className="App">
-      <h1>{response ? response.roll_number : "0827CI211110"}</h1>
-      
-      <form onSubmit={handleSubmit}>
+      <div className="main_block">
+      <h1>Data Filter Application</h1>
+      <p className="User">Completed By: Mitali Singh ({response? response.roll_number:"0827CI211110"})</p>
+      <form onSubmit={handleSubmit} className="form-section">
         <textarea
-          placeholder="Enter JSON here"
+          placeholder='Enter JSON here (e.g., {"data": ["a", 1, "b", 2]})'
           value={jsonInput}
           onChange={handleInputChange}
-          rows="10"
+          rows="8"
           cols="50"
         />
         <br />
         <button type="submit" disabled={loading}>
-          {loading ? "Loading..." : "Submit"}
+          {loading ? "Processing..." : "Submit"}
         </button>
       </form>
+      </div>
+      {error && <p className="error-message">{error}</p>}
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
-
-      {/* Dropdown to select what part of the response to show */}
+      {/* Dropdown and filtered response */}
       {response && !error && (
-        <div>
-          <h3>Select fields to display:</h3>
-          <select multiple={true} value={selectedOptions} onChange={handleDropdownChange} style={{ width: "200px", height: "100px" }}>
+        <div className="filter">
+          <h3>Filter Response:</h3>
+          <select
+            value={selectedOption}
+            onChange={handleDropdownChange}
+            className="dropdown"
+          >
+            <option value="" disabled>
+              Select a filter
+            </option>
             <option value="Alphabets">Alphabets</option>
             <option value="Numbers">Numbers</option>
-            <option value="Highest lowercase alphabet">Highest lowercase alphabet</option>
+            <option value="Highest lowercase alphabet">
+              Highest lowercase alphabet
+            </option>
           </select>
-        </div>
-      )}
-
-      {/* Display the filtered response */}
-      {response && !error && selectedOptions.length > 0 && (
-        <div>
-          <h2>Filtered Response:</h2>
-          <pre>{JSON.stringify(getFilteredResponse(), null, 2)}</pre>
+          {selectedOption && (
+            <div className="response-section">
+              <h2>Filtered Response:</h2>
+              <pre>{JSON.stringify(getFilteredResponse(), null, 2)}</pre>
+            </div>
+          )}
         </div>
       )}
     </div>
