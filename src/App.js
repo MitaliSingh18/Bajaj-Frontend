@@ -31,7 +31,7 @@ const App = () => {
       }
 
       // Call the backend API
-      const res = await axios.post("http://localhost:3000/bfhl", parsedData);
+      const res = await axios.post("https://bajaj-backend-1-hf1v.onrender.com/bfhl", parsedData);
       setResponse(res.data);
     } catch (err) {
       setError("Error: Invalid JSON or API request failed.");
