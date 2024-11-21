@@ -1,4 +1,4 @@
-/* Reset */
+/* Basic Reset */
 * {
   margin: 0;
   padding: 0;
@@ -7,24 +7,21 @@
 
 /* Main container styling */
 .App {
-  font-family: 'Roboto', sans-serif;
-  background: linear-gradient(to right, #74ebd5, #9face6);
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f7fc;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 20px;
-  color: #2c3e50;
 }
 
 /* Title and Roll number */
 h1 {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #2c3e50;
+  font-size: 2rem;
+  color: #333;
   margin-bottom: 20px;
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Textarea input for JSON */
@@ -32,40 +29,29 @@ textarea {
   width: 80%;
   max-width: 600px;
   height: 150px;
-  padding: 15px;
-  border-radius: 12px;
+  padding: 10px;
+  border-radius: 8px;
   border: 1px solid #ccc;
-  font-size: 1.1rem;
+  font-size: 1rem;
   outline: none;
   margin-bottom: 20px;
   resize: none;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  background-color: #fdfdfd;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-textarea:focus {
-  border-color: #3498db;
-  box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
 }
 
 /* Submit button */
 button {
-  padding: 12px 25px;
-  background-color: #3498db;
+  padding: 10px 20px;
+  background-color: #4CAF50;
   color: white;
   border: none;
-  border-radius: 25px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 1.2rem;
-  font-weight: bold;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background-color: #2980b9;
-  transform: translateY(-2px);
+  background-color: #45a049;
 }
 
 button:disabled {
@@ -75,30 +61,21 @@ button:disabled {
 
 /* Error Message */
 .error-message {
-  color: #e74c3c;
+  color: red;
   font-size: 1rem;
   margin-top: 10px;
-  font-weight: bold;
 }
 
 /* Dropdown styling */
 select {
-  width: 80%;
-  max-width: 400px;
-  height: auto;
-  padding: 12px;
-  border-radius: 12px;
+  width: 400px;
+  height: 200px;
+  padding: 10px;
+  border-radius: 8px;
   border: 1px solid #ccc;
   font-size: 1rem;
   margin-top: 20px;
   background-color: white;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-select:focus {
-  border-color: #3498db;
-  box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
 }
 
 option {
@@ -116,31 +93,25 @@ option {
 }
 
 @keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 /* Result display styling */
 pre {
-  background-color: #ffffff;
+  background-color: #fff;
   padding: 20px;
-  border-radius: 12px;
+  border-radius: 8px;
   border: 1px solid #ddd;
   width: 80%;
   max-width: 600px;
   margin-top: 20px;
   white-space: pre-wrap;
   word-wrap: break-word;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  color: #2c3e50;
 }
 
 h2 {
   margin-top: 20px;
-  font-size: 1.8rem;
-  color: #34495e;
+  font-size: 1.5rem;
+  color: #333;
 }
